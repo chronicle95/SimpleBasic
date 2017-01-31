@@ -56,6 +56,13 @@ void clear(char *dst, int size)
     }
 }
 
+int length(const char *s)
+{
+    int l = 0;
+    while (*(s++)) l++;
+    return l;
+}
+
 void stripped_input(char *s)
 {
     char c;
@@ -317,6 +324,7 @@ int main(int argc, char **argv)
     struct Context ctx;
     char prog[CODE_SZ];
     char linebuf[LINE_SZ];
+    int linenum, x;
     
     printf ("SmallBasic\n");
     printf ("Ok\n");
@@ -325,7 +333,22 @@ int main(int argc, char **argv)
         stripped_input (linebuf);
         if (ISDIGIT (linebuf[0]))
         {
-            
+            x = get_number(linebuf, 0, &linenum);
+            x = seek_line(prog, linenum);
+            if (x == NO_LINE)
+            {
+                for (x = 0; prog[x]; x++);
+                prog[x++] = '\n';
+                copy (&prog + x, linebuf);
+            }
+            else
+            {
+                int prev_eol, next_eol, linelen;
+                prev_eol = seek_eol (prog, x, -1);
+                next_eol = seek_eol (prog, x,  1);
+                linelen = length (linebuf);
+                // TODO: add buffer shift and line copy to buffer
+            }
         }
         else
         if (ISALPHA (linebuf[0]))
