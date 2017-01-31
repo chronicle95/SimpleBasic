@@ -221,8 +221,15 @@ int exec_expr(const char *s, int i, struct Context *ctx)
             switch (pending)
             {
                 case '=':
-                    ctx->dsptr++;
-                    ctx->dstack[ctx->dsptr] = value;
+                    if (ctx->dsptr == 0)
+                    {
+                        ctx->dsptr++;
+                        ctx->dstack[ctx->dsptr] = value;
+                    }
+                    else
+                    {
+                        ctx->dstack[ctx->dsptr] = (ctx->dstack[ctx->dsptr] == value);
+                    }
                     break;
                 case '+':
                     ctx->dstack[ctx->dsptr] += value;
