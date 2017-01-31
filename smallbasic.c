@@ -63,6 +63,11 @@ int length(const char *s)
     return l;
 }
 
+void join(char *dst, const char *src)
+{
+    copy (dst + length (dst), src);
+}
+
 void stripped_input(char *s)
 {
     char c;
@@ -287,6 +292,7 @@ void exec_program(const char *s, struct Context* ctx)
     ctx->line    = 0;
     ctx->dsptr   = 0;
     ctx->csptr   = 0;
+    
     while (ctx->running && (ctx->line < MAX_LINE))
     {
         ci = seek_line (s, ctx->line);
@@ -337,17 +343,17 @@ int main(int argc, char **argv)
             x = seek_line(prog, linenum);
             if (x == NO_LINE)
             {
-                for (x = 0; prog[x]; x++);
-                prog[x++] = '\n';
-                copy (&prog + x, linebuf);
+                join (prog, "\n");
+                join (prog, linebuf);
             }
             else
             {
-                int prev_eol, next_eol, linelen;
-                prev_eol = seek_eol (prog, x, -1);
+                int prev_eol, next_eol, offset;
+                prev_eol = seek_eol (prog, x, -1) + 1;
                 next_eol = seek_eol (prog, x,  1);
-                linelen = length (linebuf);
-                // TODO: add buffer shift and line copy to buffer
+                offset = length (linebuf) - (next_eol - prev_eol);
+                copy (prog + next_eol + offset, prog + next_eol);
+                copy (prog + prev_eol, linebuf);
             }
         }
         else
