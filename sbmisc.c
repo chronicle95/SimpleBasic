@@ -1,4 +1,17 @@
 
+/* boolean type definitions */
+#define true 1
+#define false 0
+typedef char bool;
+
+/* global constants and macros */
+#define ISDIGIT(c) (((c)>='0')&&((c)<='9'))
+#define ISALPHA(c) (((c)>='A')&&((c)<='Z'))
+#define ISSPACE(c) (((c)==' ')||((c)=='\t'))
+#define ISOP(c) (((c)=='+')||((c)=='-')||((c)=='*')\
+                ||((c)=='/')||((c)=='>')||((c)=='<')\
+                ||((c)=='='))
+
 /* string and i/o related methods */
 bool compare(const char *a, const char *b)
 {

@@ -1,18 +1,5 @@
 #include <stdio.h>
 
-/* boolean type definitions */
-#define true 1
-#define false 0
-typedef char bool;
-
-/* global constants and macros */
-#define ISDIGIT(c) (((c)>='0')&&((c)<='9'))
-#define ISALPHA(c) (((c)>='A')&&((c)<='Z'))
-#define ISSPACE(c) (((c)==' ')||((c)=='\t'))
-#define ISOP(c) (((c)=='+')||((c)=='-')||((c)=='*')\
-                ||((c)=='/')||((c)=='>')||((c)=='<')\
-                ||((c)=='='))
-                
 #define MAX_LINE 10000
 #define NO_LINE -1
 
@@ -28,63 +15,7 @@ typedef char bool;
 
 #include "sbmisc.c"
 #include "sbstruct.c"
-
-/* interpreter functions */
-int get_symbol(const char *s, int i, char *t)
-{
-    while (s[i] && ISALPHA (s[i]))
-    {
-        *(t++) = s[i++];
-    }
-    *t = '\0';
-    return i;
-}
-
-int get_number(const char *s, int i, int *num)
-{
-    *num = 0;
-    while (s[i] && ISDIGIT (s[i]))
-    {
-        *num *= 10;
-        *num += s[i++] - '0';
-    }
-    return i;
-}
-
-int ign_space(const char *s, int i)
-{
-    while (s[i] && ISSPACE (s[i]))
-    {
-        i++;
-    }
-    return i;
-}
-
-int seek_eol(const char *s, int i, int dir)
-{
-    while ((i >= 0) && s[i] && s[i] != '\n')
-    {
-        i += dir;
-    }
-    return i;
-}
-
-int seek_line(const char *s, int ln)
-{
-    int i = 0, x;
-    while (s[i])
-    {
-        i = ign_space (s, i);
-        i = get_number (s, i, &x);
-        if (x == ln)
-        {
-            return i;
-        }
-        i = seek_eol (s, i, 1);
-        i++;
-    }
-    return NO_LINE;
-}
+#include "sbparse.c"
 
 int exec_expr(const char *s, int i, struct Context *ctx)
 {
