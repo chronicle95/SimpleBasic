@@ -68,6 +68,38 @@ void join(char *dst, const char *src)
     copy (dst + length (dst), src);
 }
 
+void shift(char *s, int origin, int offset, int maxlength)
+{
+    int i;
+    if (offset > 0)
+    {
+        i = maxlength - 1;
+        while ((i - offset) >= origin)
+        {
+            *(s + i) = *(s + i - offset);
+            i--;
+        }
+        while (--i >= origin)
+        {
+            *(s + i) = 0;
+        }
+    }
+    else if (offset < 0)
+    {
+        i = origin + offset;
+        while (*(s + i - offset))
+        {
+            *(s + i) = *(s + i - offset);
+            i++;
+        }
+        while (i < maxlength)
+        {
+            *(s + i) = 0;
+            i++;
+        }
+    }
+}
+
 void stripped_input(char *s)
 {
     char c;
@@ -352,7 +384,7 @@ int main(int argc, char **argv)
                 prev_eol = seek_eol (prog, x, -1) + 1;
                 next_eol = seek_eol (prog, x,  1);
                 offset = length (linebuf) - (next_eol - prev_eol);
-                copy (prog + next_eol + offset, prog + next_eol);
+                shift (prog, next_eol, offset, CODE_SZ);
                 copy (prog + prev_eol, linebuf);
             }
         }
@@ -371,7 +403,7 @@ int main(int argc, char **argv)
             else
             if (compare (linebuf, "LIST"))
             {
-                list_program (code, &ctx);
+                list_program (prog);
             }
             else
             {
