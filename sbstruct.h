@@ -16,10 +16,6 @@ struct Command
     char name[CMD_NAMESZ];
     void (*func)(const char*, int, struct Context*);
 };
-#define BINDCMD(c,n,f)  do {\
-                        copy ((c)->name, n);\
-                        (c)->func = f;\
-                    } while(0);
 
 struct Context
 {

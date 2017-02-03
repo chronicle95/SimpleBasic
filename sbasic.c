@@ -33,7 +33,9 @@ int main(int argc, char **argv)
     char prog[CODE_SZ];
     char linebuf[LINE_SZ];
     int linenum, x;
-    
+ 
+    exec_init(&ctx);
+
     printf ("SimpleBasic\n");
     printf ("Ok\n");
     while (true)

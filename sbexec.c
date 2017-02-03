@@ -135,3 +135,49 @@ void exec_program(const char *s, struct Context* ctx)
     }
 }
 
+
+void exec_cmd_print(const char *s, int i, struct Context *ctx)
+{
+}
+
+void exec_cmd_input(const char *s, int i, struct Context *ctx)
+{
+}
+
+void exec_cmd_return(const char *s, int i, struct Context *ctx)
+{
+}
+
+void exec_cmd_goto(const char *s, int i, struct Context *ctx)
+{
+}
+
+void exec_cmd_gosub(const char *s, int i, struct Context *ctx)
+{
+}
+
+void exec_cmd_let(const char *s, int i, struct Context *ctx)
+{
+}
+
+void exec_cmd_end(const char *s, int i, struct Context *ctx)
+{
+}
+
+void exec_cmd_if(const char *s, int i, struct Context *ctx)
+{
+}
+
+void exec_init(struct Context *ctx)
+{
+    int k = 0;
+    BINDCMD (&ctx->cmds[k++], "PRINT",  exec_cmd_print);
+    BINDCMD (&ctx->cmds[k++], "INPUT",  exec_cmd_input);
+    BINDCMD (&ctx->cmds[k++], "RETURN", exec_cmd_return);
+    BINDCMD (&ctx->cmds[k++], "GOTO",   exec_cmd_goto);
+    BINDCMD (&ctx->cmds[k++], "GOSUB",  exec_cmd_gosub);
+    BINDCMD (&ctx->cmds[k++], "LET",    exec_cmd_let);
+    BINDCMD (&ctx->cmds[k++], "END",    exec_cmd_end);
+    BINDCMD (&ctx->cmds[k++], "STOP",   exec_cmd_end);
+    BINDCMD (&ctx->cmds[k++], "IF",     exec_cmd_if);
+}
