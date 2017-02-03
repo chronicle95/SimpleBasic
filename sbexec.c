@@ -1,3 +1,10 @@
+#include <stdio.h>
+
+#include "sbconf.h"
+#include "sbparse.h"
+#include "sbmisc.h"
+#include "sbexec.h"
+
 int exec_expr(const char *s, int i, struct Context *ctx)
 {
     char name[VAR_NAMESZ];

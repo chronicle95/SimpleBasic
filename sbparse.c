@@ -1,5 +1,7 @@
+#include "sbstruct.h"
+#include "sbparse.h"
+#include "sbmisc.h"
 
-/* interpreter functions */
 int get_symbol(const char *s, int i, char *t)
 {
     while (s[i] && ISALPHA (s[i]))

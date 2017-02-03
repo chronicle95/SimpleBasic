@@ -1,5 +1,9 @@
+#ifndef __SBSTRUCT_H__
+#define __SBSTRUCT_H__
 
-/* structures */
+#include "sbconf.h"
+#include "sbmisc.h"
+
 struct Variable
 {
     char name[VAR_NAMESZ];
@@ -29,3 +33,5 @@ struct Context
     int line;
     bool running;
 };
+
+#endif

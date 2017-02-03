@@ -1,3 +1,5 @@
+#ifndef __SBCONF_H__
+#define __SBCONF_H__
 
 #define MAX_LINE 10000
 #define NO_LINE -1
@@ -11,3 +13,5 @@
 #define MEMORY_SZ 100
 #define LINE_SZ 80
 #define CODE_SZ 4096
+
+#endif

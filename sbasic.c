@@ -1,11 +1,10 @@
 #include <stdio.h>
 
-/* Do not change the order of inclusion */
 #include "sbconf.h"
-#include "sbmisc.c"
-#include "sbstruct.c"
-#include "sbparse.c"
-#include "sbexec.c"
+#include "sbmisc.h"
+#include "sbstruct.h"
+#include "sbparse.h"
+#include "sbexec.h"
 
 void list_program(const char *s)
 {
