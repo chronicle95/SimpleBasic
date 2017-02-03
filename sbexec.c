@@ -195,14 +195,13 @@ void exec_cmd_if(const char *s, int i, struct Context *ctx)
 
 void exec_init(struct Context *ctx)
 {
-    int k = 0;
-    BINDCMD (&ctx->cmds[k++], "PRINT",  exec_cmd_print);
-    BINDCMD (&ctx->cmds[k++], "INPUT",  exec_cmd_input);
-    BINDCMD (&ctx->cmds[k++], "RETURN", exec_cmd_return);
-    BINDCMD (&ctx->cmds[k++], "GOTO",   exec_cmd_goto);
-    BINDCMD (&ctx->cmds[k++], "GOSUB",  exec_cmd_gosub);
-    BINDCMD (&ctx->cmds[k++], "LET",    exec_cmd_let);
-    BINDCMD (&ctx->cmds[k++], "END",    exec_cmd_end);
-    BINDCMD (&ctx->cmds[k++], "STOP",   exec_cmd_end);
-    BINDCMD (&ctx->cmds[k++], "IF",     exec_cmd_if);
+    BINDCMD (&ctx->cmds[0], "PRINT",  exec_cmd_print);
+    BINDCMD (&ctx->cmds[1], "INPUT",  exec_cmd_input);
+    BINDCMD (&ctx->cmds[2], "RETURN", exec_cmd_return);
+    BINDCMD (&ctx->cmds[3], "GOTO",   exec_cmd_goto);
+    BINDCMD (&ctx->cmds[4], "GOSUB",  exec_cmd_gosub);
+    BINDCMD (&ctx->cmds[5], "LET",    exec_cmd_let);
+    BINDCMD (&ctx->cmds[6], "END",    exec_cmd_end);
+    BINDCMD (&ctx->cmds[7], "STOP",   exec_cmd_end);
+    BINDCMD (&ctx->cmds[8], "IF",     exec_cmd_if);
 }

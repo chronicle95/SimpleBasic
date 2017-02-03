@@ -7,7 +7,7 @@
 #define BINDCMD(c,n,f)  do {\
                         copy ((c)->name, n);\
                         (c)->func = f;\
-                    } while(0);
+                    } while(0)
 
 int exec_expr(const char *s, int i, struct Context *ctx);
 void exec_line(const char *s, int i, struct Context *ctx);
