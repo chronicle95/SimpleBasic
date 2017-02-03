@@ -34,7 +34,7 @@ int main(int argc, char **argv)
     char linebuf[LINE_SZ];
     int linenum, x;
     
-    printf ("SmallBasic\n");
+    printf ("SimpleBasic\n");
     printf ("Ok\n");
     while (true)
     {
