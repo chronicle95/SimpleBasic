@@ -138,6 +138,31 @@ void exec_program(const char *s, struct Context* ctx)
 
 void exec_cmd_print(const char *s, int i, struct Context *ctx)
 {
+    while ((i < length (s)) && (s[i] != '\n'))
+    {
+        i = ign_space (s, i);
+        if (s[i] == '\"')
+        {
+            i++;
+            while (s[i] != '\"')
+            {
+                putchar (s[i++]);
+            }
+            /* ignore closing quotation mark */
+            i++;
+        }
+        else
+        if (s[i] == ';')
+        {
+            i++;
+        }
+        else
+        {
+            i = exec_expr (s, i, ctx);
+            printf ("%d ", ctx->dstack[ctx->dsptr--]);
+        }
+    }
+    putchar ('\n');
 }
 
 void exec_cmd_input(const char *s, int i, struct Context *ctx)
