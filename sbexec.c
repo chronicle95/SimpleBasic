@@ -42,6 +42,7 @@ int exec_expr(const char *s, int i, struct Context *ctx)
                 printf ("Error: undefined variable `%s` at line %d\n",
                         name, ctx->line);
                 ctx->running = false;
+                ctx->error = ERR_UNDEF;
                 break;
             }
         }
@@ -55,6 +56,8 @@ int exec_expr(const char *s, int i, struct Context *ctx)
             printf ("Error: unexpected character `%c` at line %d\n",
                     s[i], ctx->line);
             ctx->running = false;
+            ctx->error = ERR_UNEXP;
+            i++;
             break;
         }
         
@@ -113,6 +116,7 @@ void exec_line(const char *s, int i, struct Context *ctx)
         }
     }
     ctx->running = false;
+    ctx->error = ERR_UNKNOWN;
     printf("Error: unknown command `%s`at line %d\n", cmd, ctx->line);
 }
 
@@ -123,6 +127,7 @@ void exec_program(const char *s, struct Context* ctx)
     ctx->line    = 0;
     ctx->dsptr   = 0;
     ctx->csptr   = 0;
+    ctx->error   = ERR_NONE;
     
     while (ctx->running && (ctx->line < MAX_LINE))
     {
@@ -159,7 +164,10 @@ void exec_cmd_print(const char *s, int i, struct Context *ctx)
         else
         {
             i = exec_expr (s, i, ctx);
-            printf ("%d ", ctx->dstack[ctx->dsptr--]);
+            if (ctx->error == ERR_NONE)
+            {
+                printf ("%d ", ctx->dstack[ctx->dsptr--]);
+            }
         }
     }
     putchar ('\n');

@@ -27,6 +27,11 @@ struct Context
     int dsptr;
     int csptr;
     int line;
+    char error;
+#define ERR_NONE     0
+#define ERR_UNDEF   -1
+#define ERR_UNEXP   -2
+#define ERR_UNKNOWN -3
     bool running;
 };
 
