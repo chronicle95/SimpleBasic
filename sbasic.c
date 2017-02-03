@@ -34,7 +34,8 @@ int main(int argc, char **argv)
     char linebuf[LINE_SZ];
     int linenum, x;
  
-    exec_init(&ctx);
+    exec_init (&ctx);
+    clear (prog, CODE_SZ);
 
     printf ("SimpleBasic\n");
     printf ("Ok\n");
@@ -47,7 +48,10 @@ int main(int argc, char **argv)
             x = seek_line(prog, linenum);
             if (x == NO_LINE)
             {
-                join (prog, "\n");
+                if (length (prog))
+                {
+                    join (prog, "\n");
+                }
                 join (prog, linebuf);
             }
             else
