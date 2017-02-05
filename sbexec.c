@@ -144,6 +144,7 @@ void exec_program(const char *s, struct Context* ctx)
 
 void exec_cmd_print(const char *s, int i, struct Context *ctx)
 {
+    bool eol = true;
     while ((i < length (s)) && (s[i] != '\n'))
     {
         i = ign_space (s, i);
@@ -156,11 +157,13 @@ void exec_cmd_print(const char *s, int i, struct Context *ctx)
             }
             /* ignore closing quotation mark */
             i++;
+            eol = true;
         }
         else
         if (s[i] == ';')
         {
             i++;
+            eol = false;
         }
         else
         {
@@ -169,9 +172,10 @@ void exec_cmd_print(const char *s, int i, struct Context *ctx)
             {
                 printf ("%d ", ctx->dstack[ctx->dsptr--]);
             }
+            eol = true;
         }
     }
-    putchar ('\n');
+    if (eol) putchar ('\n');
 }
 
 void exec_cmd_input(const char *s, int i, struct Context *ctx)
