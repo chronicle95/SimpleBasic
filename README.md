@@ -57,7 +57,7 @@ Here is how you would calculate and print first 10 fibonacchi numbers:
 80 LET A = B
 90 LET B = C
 100 LET COUNT = COUNT + 1
-110 IF COUNT < 10 THEN GOTO 40
+110 IF COUNT < 10 THEN GOTO 60
 120 ' Print EOL so that prompt comes at the next line
 130 PRINT ""
 140 END
