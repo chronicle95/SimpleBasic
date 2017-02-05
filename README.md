@@ -17,10 +17,14 @@ general BASIC commands, at the *moment*:
 - `INPUT ..` print prompt string and request number for input
 - `GOTO ..` go to line, which number is evaluated as expression
 - `GOSUB ..` go to subroutine
+- `RETURN` return from subroutine
 - `IF .. THEN ..` if conditional expression is true, execute whatever command is after THEN
 - `LET .. = ..` evaluate expression and store the result into variable
 - `END` stop execution
 - `STOP` stop execution
+
+You can add comments to code by writing `'` character at the beginning
+of the line (after line number).
 
 In interactive mode you can:
 
@@ -41,18 +45,22 @@ Hello, World!
 Ok
 ```
 
-Here is how you would calculate first 10 fibonacchi numbers:
+Here is how you would calculate and print first 10 fibonacchi numbers:
 ```
-10 LET A = 1
-20 LET B = 1
-30 LET COUNT = 0
-40 PRINT A
-50 LET C = A + B
-60 LET A = B
-70 LET B = C
-80 LET COUNT = COUNT + 1
-90 IF COUNT < 10 THEN GOTO 40
-100 END
+10 ' Program: Fibonacci sequence
+20 LET A = 1
+30 LET B = 1
+40 LET COUNT = 0
+50 ' Semicolon at the end will omit the line feed
+60 PRINT A;
+70 LET C = A + B
+80 LET A = B
+90 LET B = C
+100 LET COUNT = COUNT + 1
+110 IF COUNT < 10 THEN GOTO 40
+120 ' Print EOL so that prompt comes at the next line
+130 PRINT ""
+140 END
 ```
 
 ### Internals
