@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+#include "sbconf.h"
 #include "sbparse.h"
 #include "sbmisc.h"
 
@@ -93,4 +94,18 @@ void stripped_input(char *s)
     *s = '\0';
 }
 
-
+void map_intval (struct Context *ctx, const char *key, int value)
+{
+    int j;
+    for (j = 0; ctx->vars[j].name[0] && j < VAR_COUNT; j++)
+    {
+        if (compare (ctx->vars[j].name, key))
+        {
+            ctx->dmemory[ctx->vars[j].location] = value;
+            return;
+        }
+    }
+    copy (ctx->vars[j].name, key);
+    ctx->vars[j].location = ctx->allocated++;
+    ctx->dmemory[ctx->vars[j].location] = value; 
+}

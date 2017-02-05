@@ -2,7 +2,7 @@
 #define __SBSTRUCT_H__
 
 #include "sbconf.h"
-#include "sbmisc.h"
+#include "sbbool.h"
 
 struct Variable
 {
@@ -26,6 +26,7 @@ struct Context
     int cstack[CALL_STSZ];
     int dsptr;
     int csptr;
+    int allocated;
     int line;
     char error;
 #define ERR_NONE     0
