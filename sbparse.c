@@ -73,6 +73,16 @@ void upper(char *s)
         {
             toggle = !toggle;
         }
+        else
+        if (*s == '\'')
+        {
+            toggle = false;
+        }
+        else
+        if (*s == '\n')
+        {
+            toggle = true;
+        }
         s++;
     }
 }

@@ -106,6 +106,11 @@ void exec_line(const char *s, int i, struct Context *ctx)
     int j;
     char cmd[CMD_NAMESZ];
     i = ign_space (s, i);
+    if (s[i] == '\'')
+    {
+        /* Don't process a remark */
+        return;
+    }
     i = get_symbol (s, i, cmd);
     for (j = 0; j < CMD_COUNT; j++)
     {
