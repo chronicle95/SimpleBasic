@@ -42,6 +42,7 @@ int main(int argc, char **argv)
     while (true)
     {
         stripped_input (linebuf);
+        upper (linebuf);
         if (ISDIGIT (linebuf[0]))
         {
             x = get_number(linebuf, 0, &linenum);

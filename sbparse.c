@@ -58,3 +58,21 @@ int seek_line(const char *s, int ln)
     return NO_LINE;
 }
 
+void upper(char *s)
+{
+    bool toggle = true;
+    while (*s)
+    {
+        if (ISalpha (*s))
+        {
+            if (toggle)
+                *s = *s - 32;
+        }
+        else
+        if (*s == '\"')
+        {
+            toggle = !toggle;
+        }
+        s++;
+    }
+}
