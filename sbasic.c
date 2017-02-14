@@ -34,8 +34,9 @@ int main(int argc, char **argv)
     char linebuf[LINE_SZ];
     int linenum, x;
  
-    exec_init (&ctx);
     clear (prog, CODE_SZ);
+    clear ((char *) &ctx, sizeof(ctx));
+    exec_init (&ctx);
 
     printf ("SimpleBasic\n");
     printf ("Ok\n");
