@@ -29,8 +29,9 @@ of the line (after line number).
 In interactive mode you can:
 
 - `RUN` run the entered program
-- `LIST` print program's source code
+- `LIST` program's source code
 - `NEW` clear the program
+- `SYSTEM` exit to OS
 
 ### Examples
 

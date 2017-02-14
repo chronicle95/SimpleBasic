@@ -84,6 +84,11 @@ int main(int argc, char **argv)
                 list_program (prog);
             }
             else
+            if (compare (linebuf, "SYSTEM"))
+            {
+                return 0;
+            }
+            else
             {
                 printf ("Error: unknown command `%s`\n", linebuf);
             }
