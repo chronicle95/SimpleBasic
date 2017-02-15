@@ -216,7 +216,7 @@ void exec_cmd_input(const char *s, int i, struct Context *ctx)
 
 void exec_cmd_return(const char *s, int i, struct Context *ctx)
 {
-    ctx->line = ctx->dstack[ctx->dsptr--];
+    ctx->line = ctx->cstack[ctx->csptr--];
 }
 
 void exec_cmd_goto(const char *s, int i, struct Context *ctx)
@@ -232,7 +232,7 @@ void exec_cmd_gosub(const char *s, int i, struct Context *ctx)
 {
     exec_expr (s, i, ctx);
     ctx->cstack[++ctx->csptr] = ctx->line;
-    ctx->line = ctx->dstack[ctx->dsptr--];
+    ctx->line = ctx->dstack[ctx->dsptr--] - 1;
 }
 
 void exec_cmd_let(const char *s, int i, struct Context *ctx)
