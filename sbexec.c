@@ -49,7 +49,24 @@ int exec_expr(const char *s, int i, struct Context *ctx)
         else
         if (ISOP (s[i]))
         {
-            pending = s[i++];
+            if (s[i] == '(')
+            {
+                ctx->dsptr++;
+                ctx->dstack[ctx->dsptr] = (int) pending;
+                pending = s[i++];
+            }
+            else
+            if (s[i] == ')')
+            {
+                value = ctx->dstack[ctx->dsptr--];
+                pending = (char) ctx->dstack[ctx->dsptr--];
+                operand = true;
+                i++;
+            }
+            else
+            {
+                pending = s[i++];
+            }
         }
         else
         {
@@ -94,6 +111,10 @@ int exec_expr(const char *s, int i, struct Context *ctx)
                     break;
                 case '<':
                     ctx->dstack[ctx->dsptr] = ctx->dstack[ctx->dsptr] < value;
+                    break;
+                case '(':
+                    ctx->dsptr++;
+                    ctx->dstack[ctx->dsptr] = value;
                     break;
             }
         }

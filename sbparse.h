@@ -7,7 +7,7 @@
 #define ISSPACE(c) (((c)==' ')||((c)=='\t'))
 #define ISOP(c) (((c)=='+')||((c)=='-')||((c)=='*')\
 		                ||((c)=='/')||((c)=='>')||((c)=='<')\
-		                ||((c)=='='))
+		                ||((c)=='=')||((c)=='(')||((c)==')'))
 
 int get_symbol(const char *s, int i, char *t);
 int get_number(const char *s, int i, int *num);
