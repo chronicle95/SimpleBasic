@@ -26,6 +26,15 @@ general BASIC commands, at the *moment*:
 You can add comments to code by writing `'` character at the beginning
 of the line (after line number).
 
+#### Expressions
+
+Order of operations is left-to-right with no predefined order.
+If you wish to preserve the order, use parenthesis. Keep this
+in mind, especially when writing conditionals, as all operators are
+at the same level.
+
+#### Interactive mode
+
 In interactive mode you can:
 
 - `RUN` run the entered program
@@ -77,3 +86,7 @@ have some sort of virtual machine implemented, aside from the
 parser.
 But here I decided to remove the unnecessary step and run the
 code directly from source! Very funny, but in fact it works.
+
+### License
+
+GNU GPL
