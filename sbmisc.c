@@ -1,13 +1,12 @@
-#include <stdio.h>
-
 #include "sbconf.h"
 #include "sbparse.h"
 #include "sbmisc.h"
+#include "sbio.h"
 
 bool compare(const char *a, const char *b)
 {
-    if (a == NULL && b == NULL) return true;
-    if (a == NULL || b == NULL) return false;
+    if (a == false && b == false) return true;
+    if (a == false || b == false) return false;
     while (*a && *b && (*a == *b))
     {
         a++;
@@ -82,14 +81,14 @@ void stripped_input(char *s)
     char c;
     do
     {
-        c = getchar();
+        c = sbgetc ();
     }
     while (ISSPACE(c));
     
     while (c != '\n')
     {
         *(s++) = c;
-        c = getchar();
+        c = sbgetc ();
     }
     *s = '\0';
 }

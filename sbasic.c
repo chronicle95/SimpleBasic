@@ -1,10 +1,9 @@
-#include <stdio.h>
-
 #include "sbconf.h"
 #include "sbmisc.h"
 #include "sbstruct.h"
 #include "sbparse.h"
 #include "sbexec.h"
+#include "sbio.h"
 
 void list_program(const char *s)
 {
@@ -14,14 +13,14 @@ void list_program(const char *s)
         ci = seek_line (s, line);
         if (ci != NO_LINE)
         {
-            printf ("%d ", line);
+            sbprint ("%d ", line);
             ci = ign_space (s, ci);
             while (s[ci] && s[ci] != '\n')
             {
-                putchar (s[ci]);
+                sbputc (s[ci]);
                 ci++;
             }
-            putchar ('\n');
+            sbputc ('\n');
         }
         line++;
     }
@@ -38,8 +37,8 @@ int main(int argc, char **argv)
     clear ((char *) &ctx, sizeof(ctx));
     exec_init (&ctx);
 
-    printf ("SimpleBasic\n");
-    printf ("Ok\n");
+    sbprint ("SimpleBasic\n");
+    sbprint ("Ok\n");
     while (true)
     {
         stripped_input (linebuf);
@@ -90,13 +89,13 @@ int main(int argc, char **argv)
             }
             else
             {
-                printf ("Error: unknown command `%s`\n", linebuf);
+                sbprint ("Error: unknown command `%s`\n", linebuf);
             }
-            printf ("Ok\n");
+            sbprint ("Ok\n");
         }
         else
         {
-            printf ("Error: unexpected character `%c`\n", linebuf[0]);
+            sbprint ("Error: unexpected character `%c`\n", linebuf[0]);
         }
     }
     

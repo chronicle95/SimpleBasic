@@ -1,9 +1,8 @@
-#include <stdio.h>
-
 #include "sbconf.h"
 #include "sbparse.h"
 #include "sbmisc.h"
 #include "sbexec.h"
+#include "sbio.h"
 
 int exec_expr(const char *s, int i, struct Context *ctx)
 {
@@ -39,7 +38,7 @@ int exec_expr(const char *s, int i, struct Context *ctx)
             }
             if (!operand)
             {
-                printf ("Error: undefined variable `%s` at line %d\n",
+                sbprint ("Error: undefined variable `%s` at line %d\n",
                         name, ctx->line);
                 ctx->running = false;
                 ctx->error = ERR_UNDEF;
@@ -70,7 +69,7 @@ int exec_expr(const char *s, int i, struct Context *ctx)
         }
         else
         {
-            printf ("Error: unexpected character `%c` at line %d\n",
+            sbprint ("Error: unexpected character `%c` at line %d\n",
                     s[i], ctx->line);
             ctx->running = false;
             ctx->error = ERR_UNEXP;
@@ -143,7 +142,7 @@ void exec_line(const char *s, int i, struct Context *ctx)
     }
     ctx->running = false;
     ctx->error = ERR_UNKNOWN;
-    printf("Error: unknown command `%s` at line %d\n", cmd, ctx->line);
+    sbprint ("Error: unknown command `%s` at line %d\n", cmd, ctx->line);
 }
 
 void exec_program(const char *s, struct Context* ctx)
@@ -179,7 +178,7 @@ void exec_cmd_print(const char *s, int i, struct Context *ctx)
             i++;
             while (s[i] != '\"')
             {
-                putchar (s[i++]);
+                sbputc (s[i++]);
             }
             /* ignore closing quotation mark */
             i++;
@@ -196,12 +195,12 @@ void exec_cmd_print(const char *s, int i, struct Context *ctx)
             i = exec_expr (s, i, ctx);
             if (ctx->error == ERR_NONE)
             {
-                printf ("%d ", ctx->dstack[ctx->dsptr--]);
+                sbprint ("%d ", ctx->dstack[ctx->dsptr--]);
             }
             eol = true;
         }
     }
-    if (eol) putchar ('\n');
+    if (eol) sbputc ('\n');
 }
 
 void exec_cmd_input(const char *s, int i, struct Context *ctx)
@@ -215,7 +214,7 @@ void exec_cmd_input(const char *s, int i, struct Context *ctx)
         i++;
         while (s[i] != '\"')
         {
-            putchar (s[i]);
+            sbputc (s[i]);
             i++;
         }
         /* ignore quotation mark */
@@ -224,12 +223,12 @@ void exec_cmd_input(const char *s, int i, struct Context *ctx)
     i = ign_space (s, i);
     i = get_symbol (s, i, name);
 
-    ch = getchar ();
+    ch = sbgetc ();
     while (ISDIGIT (ch))
     {
         value *= 10;
         value += ch - '0';
-        ch = getchar();
+        ch = sbgetc ();
     }
 
     map_intval (ctx, name, value);
