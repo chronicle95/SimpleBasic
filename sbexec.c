@@ -131,6 +131,14 @@ void exec_line(const char *s, int i, struct Context *ctx)
         /* Don't process a remark */
         return;
     }
+    else
+    if (!ISALPHA (s[i]))
+    {
+        ctx->running = false;
+        ctx->error = ERR_UNEXP;
+        sbprint ("Error: unexpected character `%c` at line %d\n", s[i], ctx->line);
+        return;
+    }
     i = get_symbol (s, i, cmd);
     for (j = 0; j < CMD_COUNT; j++)
     {
