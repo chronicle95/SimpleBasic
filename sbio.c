@@ -25,6 +25,9 @@ void sbputs(const char *s)
 void sbputn(int n)
 {
     int i = 1, t = n;
+    if      (n == 0) sbputc ('0');
+    else if (n <  0) sbputc ('-');
+    n = n < 0 ? -n : n;
     while (t)
     {
         t /= 10;
