@@ -229,6 +229,14 @@ void exec_cmd_input(const char *s, int i, struct Context *ctx)
         i++;
     }
     i = ign_space (s, i);
+
+    /* ignore semicolon */
+    if (s[i] == ';')
+    {
+        i++;
+        i = ign_space (s, i);
+    }
+
     i = get_symbol (s, i, name);
 
     ch = sbgetc ();
