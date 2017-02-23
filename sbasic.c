@@ -85,13 +85,19 @@ int main(int argc, char **argv)
             else
             if (compare (linebuf, "SYSTEM"))
             {
-                return 0;
+                break;
             }
             else
             {
                 sbprint ("Error: unknown command `%s`\n", linebuf);
             }
             sbprint ("Ok\n");
+        }
+        else
+        if (ISSPACE (linebuf[0]) || !linebuf[0])
+        {
+            /* ignore empty line */
+            continue;
         }
         else
         {
