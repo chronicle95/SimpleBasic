@@ -121,9 +121,10 @@ int exec_expr(const char *s, int i, struct Context *ctx)
     return i;
 }
 
+void exec_cmd_let(const char*, int, struct Context*);
 void exec_line(const char *s, int i, struct Context *ctx)
 {
-    int j;
+    int j, orig = i;
     char cmd[CMD_NAMESZ];
     i = ign_space (s, i);
     if (s[i] == '\'')
@@ -148,9 +149,9 @@ void exec_line(const char *s, int i, struct Context *ctx)
             return;
         }
     }
-    ctx->running = false;
-    ctx->error = ERR_UNKNOWN;
-    sbprint ("Error: unknown command `%s` at line %d\n", cmd, ctx->line);
+    /* Any other identifier considered to be a variable name
+     * and the command assumed: LET */
+    exec_cmd_let (s, orig, ctx);
 }
 
 void exec_program(const char *s, struct Context* ctx)
@@ -277,6 +278,15 @@ void exec_cmd_let(const char *s, int i, struct Context *ctx)
     int j;
     i = ign_space (s, i);
     i = get_symbol (s, i, name);
+    i = ign_space (s, i);
+    if (s[i] != '=')
+    {
+         ctx->running = false;
+         ctx->error = ERR_UNEXP;
+         sbprint ("Error: expected `=`, got `%c` at line %d\n",
+                 s[i], ctx->line);
+         return;
+    }
     exec_expr (s, i, ctx);
     map_intval (ctx, name, ctx->dstack[ctx->dsptr--]);
 }
