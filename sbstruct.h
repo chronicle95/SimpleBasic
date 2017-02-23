@@ -28,6 +28,7 @@ struct Context
     int csptr;
     int allocated;
     int line;
+    int top_line;
     char error;
 #define ERR_NONE     0
 #define ERR_UNDEF   -1

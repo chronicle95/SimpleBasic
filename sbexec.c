@@ -164,7 +164,7 @@ void exec_program(const char *s, struct Context* ctx)
     ctx->allocated = 0;
     ctx->error   = ERR_NONE;
     
-    while (ctx->running && (ctx->line < MAX_LINE))
+    while (ctx->running && (ctx->line <= ctx->top_line))
     {
         ci = seek_line (s, ctx->line);
         if (ci != NO_LINE)

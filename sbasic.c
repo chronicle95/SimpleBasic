@@ -5,10 +5,10 @@
 #include "sbexec.h"
 #include "sbio.h"
 
-void list_program(const char *s)
+void list_program(const char *s, int top)
 {
     int line = 0, ci;
-    while (line < MAX_LINE)
+    while (line <= top)
     {
         ci = seek_line (s, line);
         if (ci != NO_LINE)
@@ -43,9 +43,17 @@ int main(int argc, char **argv)
     {
         stripped_input (linebuf);
         upper (linebuf);
+        /* process line of code */
         if (ISDIGIT (linebuf[0]))
         {
             x = get_number(linebuf, 0, &linenum);
+            if (linenum > MAX_LINE)
+            {
+                sbprint ("Error: line number should be less than %d\n",
+                        MAX_LINE);
+                continue;
+            }
+
             x = seek_line(prog, linenum);
             if (x == NO_LINE)
             {
@@ -54,6 +62,11 @@ int main(int argc, char **argv)
                     join (prog, "\n");
                 }
                 join (prog, linebuf);
+
+                if (linenum > ctx.top_line)
+                {
+                    ctx.top_line = linenum;
+                }
             }
             else
             {
@@ -66,6 +79,7 @@ int main(int argc, char **argv)
             }
         }
         else
+        /* process interpreter command */
         if (ISALPHA (linebuf[0]))
         {
             if (compare (linebuf, "RUN"))
@@ -76,11 +90,13 @@ int main(int argc, char **argv)
             if (compare (linebuf, "NEW"))
             {
                 clear (prog, CODE_SZ);
+                clear ((char *) &ctx, sizeof(ctx));
+                exec_init (&ctx);
             }
             else
             if (compare (linebuf, "LIST"))
             {
-                list_program (prog);
+                list_program (prog, ctx.top_line);
             }
             else
             if (compare (linebuf, "SYSTEM"))
@@ -94,9 +110,9 @@ int main(int argc, char **argv)
             sbprint ("Ok\n");
         }
         else
+        /* ignore empty line */
         if (ISSPACE (linebuf[0]) || !linebuf[0])
         {
-            /* ignore empty line */
             continue;
         }
         else
