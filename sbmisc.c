@@ -93,7 +93,7 @@ void stripped_input(char *s)
     *s = '\0';
 }
 
-void map_intval (struct Context *ctx, const char *key, int value)
+void map_intval (struct Context *ctx, const char *key, int value, int size)
 {
     int j;
     for (j = 0; ctx->vars[j].name[0] && j < VAR_COUNT; j++)
@@ -105,6 +105,10 @@ void map_intval (struct Context *ctx, const char *key, int value)
         }
     }
     copy (ctx->vars[j].name, key);
-    ctx->vars[j].location = ctx->allocated++;
-    ctx->dmemory[ctx->vars[j].location] = value; 
+    ctx->vars[j].location = ctx->allocated;
+    ctx->allocated += size;
+    for (j = 0; j < size; j++)
+    {
+        ctx->dmemory[ctx->vars[j].location + j] = value;
+    }
 }

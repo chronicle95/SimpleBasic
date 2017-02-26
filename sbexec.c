@@ -248,7 +248,7 @@ void exec_cmd_input(const char *s, int i, struct Context *ctx)
         ch = sbgetc ();
     }
 
-    map_intval (ctx, name, value);
+    map_intval (ctx, name, value, 1);
 }
 
 void exec_cmd_return(const char *s, int i, struct Context *ctx)
@@ -288,7 +288,7 @@ void exec_cmd_let(const char *s, int i, struct Context *ctx)
          return;
     }
     exec_expr (s, i, ctx);
-    map_intval (ctx, name, ctx->dstack[ctx->dsptr--]);
+    map_intval (ctx, name, ctx->dstack[ctx->dsptr--], 1);
 }
 
 void exec_cmd_end(const char *s, int i, struct Context *ctx)
@@ -305,6 +305,15 @@ void exec_cmd_if(const char *s, int i, struct Context *ctx)
     }
 }
 
+void exec_cmd_dim(const char *s, int i, struct Context *ctx)
+{
+    char name[VAR_NAMESZ];
+    i = ign_space (s, i);
+    i = get_symbol (s, i, name);
+    exec_expr (s, i, ctx);
+    map_intval (ctx, name, 0, ctx->dstack[ctx->dsptr--]);
+}
+
 void exec_init(struct Context *ctx)
 {
     BINDCMD (&ctx->cmds[0], "PRINT",  exec_cmd_print);
@@ -316,4 +325,5 @@ void exec_init(struct Context *ctx)
     BINDCMD (&ctx->cmds[6], "END",    exec_cmd_end);
     BINDCMD (&ctx->cmds[7], "STOP",   exec_cmd_end);
     BINDCMD (&ctx->cmds[8], "IF",     exec_cmd_if);
+    BINDCMD (&ctx->cmds[9], "DIM",    exec_cmd_dim);
 }
