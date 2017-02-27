@@ -44,6 +44,20 @@ int exec_expr(const char *s, int i, struct Context *ctx)
                 ctx->error = ERR_UNDEF;
                 break;
             }
+            else
+            {
+                int w = ign_space (s, i);
+                if (s[w] == '(')
+                {
+                    /* push array reference to data stack */
+                    i = w;
+                    ctx->dstack[++ctx->dsptr] = (int) pending;
+                    ctx->dstack[++ctx->dsptr] = ctx->vars[j].location;
+                    ctx->dstack[++ctx->dsptr] = (int) '?';
+                    pending = s[i++];
+                    operand = false;
+                }
+            }
         }
         else
         if (ISOP (s[i]))
@@ -59,6 +73,13 @@ int exec_expr(const char *s, int i, struct Context *ctx)
             {
                 value = ctx->dstack[ctx->dsptr--];
                 pending = (char) ctx->dstack[ctx->dsptr--];
+                if (pending == '?')
+                {
+                    /* dereference an array */
+                    int index = ctx->dstack[ctx->dsptr--];
+                    value = ctx->dmemory[value + index];
+                    pending = (char) ctx->dstack[ctx->dsptr--];
+                }
                 operand = true;
                 i++;
             }
