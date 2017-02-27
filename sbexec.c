@@ -7,9 +7,10 @@
 int exec_expr(const char *s, int i, struct Context *ctx)
 {
     char name[VAR_NAMESZ];
-    char pending = '=';
-    bool operand;
+    char pending = '='; /* operation that is run on an operand */
+    bool operand;       /* this flag marks if an operand was parsed */
     int value, j;
+
     while (s[i] && (s[i] != ';') && (s[i] != '\n'))
     {
         operand = false;
@@ -36,6 +37,7 @@ int exec_expr(const char *s, int i, struct Context *ctx)
                     break;
                 }
             }
+
             if (!operand)
             {
                 sbprint ("Error: undefined variable `%s` at line %d\n",
@@ -73,6 +75,7 @@ int exec_expr(const char *s, int i, struct Context *ctx)
             {
                 value = ctx->dstack[ctx->dsptr--];
                 pending = (char) ctx->dstack[ctx->dsptr--];
+
                 if (pending == '?')
                 {
                     /* dereference an array */
@@ -80,7 +83,9 @@ int exec_expr(const char *s, int i, struct Context *ctx)
                     value = ctx->dmemory[value + index];
                     pending = (char) ctx->dstack[ctx->dsptr--];
                 }
+
                 operand = true;
+                /* bypass closing parenthesis */
                 i++;
             }
             else
@@ -147,6 +152,7 @@ void exec_line(const char *s, int i, struct Context *ctx)
 {
     int j, orig = i;
     char cmd[CMD_NAMESZ];
+
     i = ign_space (s, i);
     if (s[i] == '\'')
     {
@@ -161,6 +167,7 @@ void exec_line(const char *s, int i, struct Context *ctx)
         sbprint ("Error: unexpected character `%c` at line %d\n", s[i], ctx->line);
         return;
     }
+
     i = get_symbol (s, i, cmd);
     for (j = 0; j < CMD_COUNT; j++)
     {
@@ -170,6 +177,7 @@ void exec_line(const char *s, int i, struct Context *ctx)
             return;
         }
     }
+
     /* Any other identifier considered to be a variable name
      * and the command assumed: LET */
     exec_cmd_let (s, orig, ctx);
@@ -200,6 +208,7 @@ void exec_program(const char *s, struct Context* ctx)
 void exec_cmd_print(const char *s, int i, struct Context *ctx)
 {
     bool eol = true;
+
     while ((i < length (s)) && (s[i] != '\n'))
     {
         i = ign_space (s, i);
@@ -230,6 +239,7 @@ void exec_cmd_print(const char *s, int i, struct Context *ctx)
             eol = true;
         }
     }
+
     if (eol) sbputc ('\n');
 }
 
@@ -297,9 +307,11 @@ void exec_cmd_let(const char *s, int i, struct Context *ctx)
 {
     char name[VAR_NAMESZ];
     int j;
+
     i = ign_space (s, i);
     i = get_symbol (s, i, name);
     i = ign_space (s, i);
+
     if (s[i] != '=')
     {
          ctx->running = false;
@@ -308,6 +320,7 @@ void exec_cmd_let(const char *s, int i, struct Context *ctx)
                  s[i], ctx->line);
          return;
     }
+
     exec_expr (s, i, ctx);
     map_intval (ctx, name, ctx->dstack[ctx->dsptr--], 1);
 }
@@ -320,6 +333,7 @@ void exec_cmd_end(const char *s, int i, struct Context *ctx)
 void exec_cmd_if(const char *s, int i, struct Context *ctx)
 {
     i = exec_expr (s, i, ctx);
+
     if (ctx->dstack[ctx->dsptr--])
     {
         exec_line (s, i, ctx);
@@ -329,6 +343,7 @@ void exec_cmd_if(const char *s, int i, struct Context *ctx)
 void exec_cmd_dim(const char *s, int i, struct Context *ctx)
 {
     char name[VAR_NAMESZ];
+
     i = ign_space (s, i);
     i = get_symbol (s, i, name);
     exec_expr (s, i, ctx);
