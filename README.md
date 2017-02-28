@@ -11,25 +11,27 @@ And so I did it.
 ### Commands
 
 This dialect works with integer numbers and supports only
-general BASIC commands, at the *moment*:
+general BASIC commands, *at the moment*:
 
-- `PRINT ..` print text strings and/or expression results
-- `INPUT ..` print prompt string and request number for input
-- `GOTO ..` go to line, which number is evaluated as expression
-- `GOSUB ..` go to subroutine
+- `PRINT <string>/<expr>; ...` print text strings and/or expression results
+- `INPUT <string>; <var>` print prompt string and request number for input
+- `GOTO <expr>` go to line, which number is evaluated as expression
+- `GOSUB <expr>` go to subroutine
 - `RETURN` return from subroutine
-- `IF .. THEN ..` if conditional expression is true, execute whatever command is after THEN
-- `LET .. = ..` evaluate expression and store the result into variable
+- `IF <expr> THEN <command>` if conditional expression is true, execute whatever command is after
+- `LET <var> = <expr>` evaluate expression and store the result into variable.
+  This operator is optional.
 - `END` stop execution
 - `STOP` stop execution
+- `DIM <var> (<expr>)` declare an array
 
 You can add comments to code by writing `'` character at the beginning
 of the line (after line number).
 
 #### Expressions
 
-Order of operations is left-to-right with no predefined order.
-If you wish to preserve the order, use parenthesis. Keep this
+Order of operations is left-to-right, sequentual.
+If you wish to mark the order, use parenthesis. Keep this
 in mind, especially when writing conditionals, as all operators are
 at the same level.
 
@@ -63,10 +65,10 @@ Here is how you would calculate and print first 10 fibonacchi numbers:
 40 LET COUNT = 0
 50 ' Semicolon at the end will omit the line feed
 60 PRINT A;
-70 LET C = A + B
-80 LET A = B
-90 LET B = C
-100 LET COUNT = COUNT + 1
+70 C = A + B
+80 A = B
+90 B = C
+100 COUNT = COUNT + 1
 110 IF COUNT < 10 THEN GOTO 60
 120 ' Print EOL so that prompt comes at the next line
 130 PRINT ""
@@ -87,6 +89,11 @@ parser.
 But here I decided to remove the unnecessary step and run the
 code directly from source! Very funny, but in fact it works.
 
+### Bugs
+
+Tonns of them. But if it is something that does not stick out,
+I consider it a hidden feature.
+
 ### License
 
-GNU GPL
+GNU GPL v3
