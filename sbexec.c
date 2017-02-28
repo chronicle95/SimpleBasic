@@ -131,6 +131,9 @@ int exec_expr(const char *s, int i, struct Context *ctx)
                 case '/':
                     ctx->dstack[ctx->dsptr] /= value;
                     break;
+                case '%':
+                    ctx->dstack[ctx->dsptr] %= value;
+                    break;
                 case '>':
                     ctx->dstack[ctx->dsptr] = ctx->dstack[ctx->dsptr] > value;
                     break;
