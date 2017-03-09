@@ -44,6 +44,11 @@ void join(char *dst, const char *src)
     copy (dst + length (dst), src);
 }
 
+/* Performs a shift of text in `s`,
+ * starting at `origin` index to the `\0` character
+ * by an `offset` number (can be posisive or
+ * negative). `maxlength` is the buffer length
+ */
 void shift(char *s, int origin, int offset, int maxlength)
 {
     int i;
