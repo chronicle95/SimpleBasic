@@ -12,6 +12,7 @@ void join(char *dst, const char *src);
 void shift(char *s, int origin, int offset, int maxlength);
 void stripped_input(char *s);
 
-void map_intval(struct Context *ctx, const char *key, int value, int size);
+void map_intval(struct Context *ctx, const char *key,
+                int value, int size, int offset);
 
 #endif

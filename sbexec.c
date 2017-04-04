@@ -94,6 +94,12 @@ int exec_expr(const char *s, int i, struct Context *ctx)
             }
         }
         else
+        if (s[i] == ']')
+        {
+            i++;
+	    break;
+        }
+        else
         {
             sbprint ("Error: unexpected character `%c` at line %d\n",
                     s[i], ctx->line);
@@ -282,7 +288,7 @@ void exec_cmd_input(const char *s, int i, struct Context *ctx)
         ch = sbgetc ();
     }
 
-    map_intval (ctx, name, value, 1);
+    map_intval (ctx, name, value, 1, 0);
 }
 
 void exec_cmd_return(const char *s, int i, struct Context *ctx)
@@ -309,11 +315,18 @@ void exec_cmd_gosub(const char *s, int i, struct Context *ctx)
 void exec_cmd_let(const char *s, int i, struct Context *ctx)
 {
     char name[VAR_NAMESZ];
-    int j;
+    int j = 0;
 
     i = ign_space (s, i);
     i = get_symbol (s, i, name);
     i = ign_space (s, i);
+
+    if (s[i] == '[')
+    {
+         i = exec_expr (s, i + 1, ctx);
+         i = ign_space (s, i);
+         j = ctx->dstack[ctx->dsptr--];
+    }
 
     if (s[i] != '=')
     {
@@ -325,7 +338,7 @@ void exec_cmd_let(const char *s, int i, struct Context *ctx)
     }
 
     exec_expr (s, i, ctx);
-    map_intval (ctx, name, ctx->dstack[ctx->dsptr--], 1);
+    map_intval (ctx, name, ctx->dstack[ctx->dsptr--], 1, j);
 }
 
 void exec_cmd_end(const char *s, int i, struct Context *ctx)
@@ -350,7 +363,7 @@ void exec_cmd_dim(const char *s, int i, struct Context *ctx)
     i = ign_space (s, i);
     i = get_symbol (s, i, name);
     exec_expr (s, i, ctx);
-    map_intval (ctx, name, 0, ctx->dstack[ctx->dsptr--]);
+    map_intval (ctx, name, 0, ctx->dstack[ctx->dsptr--], 0);
 }
 
 void exec_init(struct Context *ctx)

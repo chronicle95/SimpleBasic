@@ -98,14 +98,18 @@ void stripped_input(char *s)
     *s = '\0';
 }
 
-void map_intval (struct Context *ctx, const char *key, int value, int size)
+void map_intval (struct Context *ctx, const char *key,
+                 int value, int size, int offset)
 {
     int j;
     for (j = 0; ctx->vars[j].name[0] && j < VAR_COUNT; j++)
     {
         if (compare (ctx->vars[j].name, key))
         {
-            ctx->dmemory[ctx->vars[j].location] = value;
+            /* offset is only applied to a defined array
+             * when applied to undefined variable, the index
+             * will be ignored */
+            ctx->dmemory[ctx->vars[j].location + offset] = value;
             return;
         }
     }
@@ -114,6 +118,7 @@ void map_intval (struct Context *ctx, const char *key, int value, int size)
     ctx->allocated += size;
     for (j = 0; j < size; j++)
     {
+        /* do not add offset here */
         ctx->dmemory[ctx->vars[j].location + j] = value;
     }
 }
