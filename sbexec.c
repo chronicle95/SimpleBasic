@@ -243,7 +243,7 @@ void exec_cmd_print(const char *s, int i, struct Context *ctx)
             i = exec_expr (s, i, ctx);
             if (ctx->error == ERR_NONE)
             {
-                sbprint ("%d ", ctx->dstack[ctx->dsptr--]);
+                sbprint ("%d", ctx->dstack[ctx->dsptr--]);
             }
             eol = true;
         }

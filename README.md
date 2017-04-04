@@ -64,7 +64,7 @@ Here is how you would calculate and print first 10 fibonacchi numbers:
 30 LET B = 1
 40 LET COUNT = 0
 50 ' Semicolon at the end will omit the line feed
-60 PRINT A;
+60 PRINT A;" ";
 70 C = A + B
 80 A = B
 90 B = C
