@@ -104,6 +104,12 @@ int main(int argc, char **argv)
                 break;
             }
             else
+            if (compare (linebuf, "MEMORY"))
+            {
+                sbprint ("Context: %d\n", sizeof(ctx));
+                sbprint ("Program: %d\n", sizeof(prog));
+            }
+            else
             {
                 sbprint ("Error: unknown command `%s`\n", linebuf);
             }
