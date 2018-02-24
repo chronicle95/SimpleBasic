@@ -5,6 +5,33 @@
 #include "sbexec.h"
 #include "sbio.h"
 
+#if FILE_SUPPORT
+#include <stdio.h>
+int load_file(const char *file_name, char *prog)
+{
+    int line, ci, mci;
+    FILE *f = fopen(file_name, "r");
+    if (!f)
+    {
+        sbprint ("Error!\n");
+        return 0;
+    }
+    fread (prog, 1, CODE_SZ, f);
+    upper (prog);
+    fclose (f);
+
+    /* Look for maximum line */
+    for (line = MAX_LINE; line > 0; line--)
+    {
+        ci = seek_line (prog, line);
+        if (ci != NO_LINE)
+        {
+            return line;
+        }
+    }
+}
+#endif
+
 void list_program(const char *s, int top)
 {
     int line = 0, ci;
@@ -98,6 +125,21 @@ int main(int argc, char **argv)
             {
                 list_program (prog, ctx.top_line);
             }
+#if FILE_SUPPORT
+            else
+            if (compare (linebuf, "LOAD"))
+            {
+                sbprint ("File? ");
+                stripped_input (linebuf);
+                if (linebuf[0])
+                {
+                    clear (prog, CODE_SZ);
+                    clear ((char *) &ctx, sizeof(ctx));
+                    exec_init (&ctx);
+                    ctx.top_line = load_file (linebuf, prog);
+                }
+            }
+#endif
             else
             if (compare (linebuf, "SYSTEM"))
             {
