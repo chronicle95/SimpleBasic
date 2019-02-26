@@ -14,6 +14,7 @@
 #define LINE_SZ 80          /* line width restriction */
 #define CODE_SZ 4096        /* program size in characters */
 
-#define FILE_SUPPORT 1   /* 0 - no, 1 - yes */
+#define FILE_SUPPORT 1      /* 0 - no, 1 - yes */
+#define SIGNAL_SUPPORT 1    /* 0 - no, 1 - yes */
 
 #endif

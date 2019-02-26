@@ -4,6 +4,17 @@
 #include "sbexec.h"
 #include "sbio.h"
 
+#ifdef SIGNAL_SUPPORT
+#include <signal.h>
+#endif
+
+volatile char int_flag = 0;
+
+void exec_interrupt(int sig)
+{
+    int_flag = 1;
+}
+
 int exec_expr(const char *s, int i, struct Context *ctx)
 {
     char name[VAR_NAMESZ];
@@ -202,7 +213,11 @@ void exec_program(const char *s, struct Context* ctx)
     ctx->allocated = 0;
     ctx->error   = ERR_NONE;
     
-    while (ctx->running && (ctx->line <= ctx->top_line))
+#ifdef SIGNAL_SUPPORT
+    signal(SIGINT, exec_interrupt);
+#endif
+
+    while (!int_flag && ctx->running && (ctx->line <= ctx->top_line))
     {
         ci = seek_line (s, ctx->line);
         if (ci != NO_LINE)
@@ -211,6 +226,11 @@ void exec_program(const char *s, struct Context* ctx)
         }
         ctx->line++;
     }
+    int_flag = 0;
+
+#ifdef SIGNAL_SUPPORT
+    signal(SIGINT, NULL);
+#endif
 }
 
 
