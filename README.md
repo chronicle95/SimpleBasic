@@ -1,12 +1,9 @@
 # SimpleBasic
 
-I intended to write my first human readable programming
-language interpreter (in opposite to BF and FALSE, although
-the latter is pretty nice).
+This code is meant for study only. And for fun as well.
+This is my first human readable programming language interpreter.
 The BASIC dialect was chosen just because it is kind of
 easy to implement.
-
-And so I did it.
 
 ### Commands
 
@@ -31,9 +28,9 @@ of the line (after line number).
 #### Expressions
 
 Order of operations is left-to-right, sequentual.
-If you wish to mark the order, use parenthesis. Keep this
+If you wish to mark the order of calculations, use parenthesis. Keep this
 in mind, especially when writing conditionals, as all operators are
-at the same level.
+treated equal.
 
 #### Interactive mode
 
@@ -57,37 +54,16 @@ Hello, World!
 Ok
 ```
 
-Here is how you would calculate and print first 10 fibonacchi numbers:
-```
-10 ' Program: Fibonacci sequence
-20 LET A = 1
-30 LET B = 1
-40 LET COUNT = 0
-50 ' Semicolon at the end will omit the line feed
-60 PRINT A;" ";
-70 C = A + B
-80 A = B
-90 B = C
-100 COUNT = COUNT + 1
-110 IF COUNT < 10 THEN GOTO 60
-120 ' Print EOL so that prompt comes at the next line
-130 PRINT ""
-140 END
-```
-
 ### Internals
 
-Under the hood it is very crude. One of the reasons is that
-the interpreter is targeted for devices that are restricted
-on resources, especially, lacking the memory.
-Usually when you write an interpreter or a compiler, you
+Usually, when you write an interpreter or a compiler, you
 read the source code line by line and convert it to some
 internal representation (like AST) and only then you run it
 or translate to machine codes. For an interpreter you would
-have some sort of virtual machine implemented, aside from the
+have some sort of virtual machine implemented, apart from the
 parser.
 But here I decided to remove the unnecessary step and run the
-code directly from source! Very funny, but in fact it works.
+code directly from source! I guess this is bad, but it works, eh.
 
 ### Bugs
 
