@@ -229,7 +229,7 @@ void exec_program(const char *s, struct Context* ctx)
     int_flag = 0;
 
 #ifdef SIGNAL_SUPPORT
-    signal(SIGINT, NULL);
+    signal(SIGINT, 0);
 #endif
 }
 
